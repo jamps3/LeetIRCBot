@@ -82,7 +82,8 @@ public class App {
   static int kraks = 0;
   //static int offset = 001223500;
   static int offset = 0;
-  static final String weatherApiKey = "e0f8100160453dd795fc0d4ef9fdbda3";
+  static String weatherApiKey;
+  static String electricityApiKey;
   static String location = "Joensuu,FI";
   static String urlString = "http://api.openweathermap.org/data/2.5/weather?lang=fi&q=";
 
@@ -99,6 +100,20 @@ public class App {
     while (true) { // Loop
       try {
         load(); // Load the saved data
+        // Retrieve the value of the environment variables
+        weatherApiKey = System.getenv("weatherApiKey");
+        electricityApiKey = System.getenv("electricityApiKey");
+        // Check if the environment variables have values
+        if (weatherApiKey != null) {
+            System.out.println("Value of weatherApiKey variable: " + weatherApiKey);
+        } else {
+            System.out.println("weatherApiKey variable not set.");
+        }
+        if (electricityApiKey != null) {
+            System.out.println("Value of electricityApiKey variable: " + electricityApiKey);
+        } else {
+            System.out.println("electricityApiKey variable not set.");
+        }
         long startTime = System.currentTimeMillis(); // Start counting the time it takes to connect to the server
         socket = new Socket(server, port); // Connect to server
         //writer = new BufferedWriter(new OutputStreamWriter(socket.getOutputStream()));
@@ -333,9 +348,9 @@ public class App {
                 position2 +
                 ": " +
                 df.format(priceAmountd * 1.24) +
-                " snt/kWh (24✂), +1h: " +
+                " snt/kWh (24✂ ), +1h: " +
                 df.format(priceAmount2d * 1.24) +
-                " snt/kWh (24✂)"
+                " snt/kWh (24✂ )"
               );
             }
           } catch (Exception e) { // Should ignore this Traceback later!
@@ -690,10 +705,9 @@ public class App {
     // Browser interface: https://web-api.tp.entsoe.eu/transmission-domain/r2/dayAheadPrices/show?name=&defaultValue=true&viewType=GRAPH&areaType=BZN&atch=false&dateTime.dateTime=06.02.2023+00:00|CET|DAY&biddingZone.values=CTY|10YFI-1--------U!BZN|10YFI-1--------U&resolution.values=PT15M&resolution.values=PT30M&resolution.values=PT60M&dateTime.timezone=CET_CEST&dateTime.timezone_input=CET+(UTC+1)+/+CEST+(UTC+2)
     // Old API URL (until 14.02.2023): https://transparency.entsoe.eu/api?securityToken=8ce02483-b620-44c6-af76-a26350fb0333&documentType=A44&in_Domain=10YFI-1--------U&out_Domain=10YFI-1--------U&periodStart=202302060000&periodEnd=202302062300
     // New API Example URL: https://web-api.tp.entsoe.eu/api
-    String apiKey = "11380346-6512-4aa0-a6a4-9486eef3a46a";
     String urlString =
       "https://web-api.tp.entsoe.eu/api?securityToken=" +
-      apiKey +
+      electricityApiKey +
       "&documentType=A44&in_Domain=10YFI-1--------U&out_Domain=10YFI-1--------U&periodStart=" +
       start + // start example: 202302050000
       "&periodEnd=" +
