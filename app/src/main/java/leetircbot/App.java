@@ -161,6 +161,7 @@ public class App {
         public void run() {
           if (!leeted) { // Leet only once!
             if (!leeting) { // Make sure we are not running duplicated requests
+              
               if (LocalTime.now().isAfter(targetTime.plusSeconds(1))) { // Limit reached!
                 out("[LIMIT] " + targetTime.plusSeconds(1));
                 this.cancel(); // Stop the timer
@@ -282,6 +283,8 @@ public class App {
           } else {
             channel = message.substring(message.indexOf("!join@") + 6, message.lastIndexOf(" ")); // Update channel variable, need to strip the channel key
           }
+        
+        // Electricity
         } else if (message.contains("!sähkö")) { // Get current electricity price
           out("[!sähkö] request: " + message);
           int position = LocalTime.now().getHour();
@@ -347,19 +350,27 @@ public class App {
                 "-" +
                 position2 +
                 ": " +
+<<<<<<< HEAD
                 df.format(priceAmountd * 1.24) +
                 " snt/kWh (24✂ ), +1h: " +
                 df.format(priceAmount2d * 1.24) +
                 " snt/kWh (24✂ )"
               );
+=======
+                df.format(priceAmountd * 1.255) +
+                " snt/kWh (25,5%), +1h: " +
+                df.format(priceAmount2d * 1.255) +
+                " snt/kWh (25,5%)"
+              ); //✂
+>>>>>>> master
             }
           } catch (Exception e) { // Should ignore this Traceback later!
-            e.printStackTrace();
+            //e.printStackTrace();
           }
         } else if (message.contains("!suorita@")) { // Custom commands
           out("[COMMAND] [Command] request: " + message);
           String command = message.substring(message.indexOf("!suorita@") + 9);
-          writeMessage(command); // Send command
+          //writeMessage(command); // Send command disabled
         } else if (message.toLowerCase().contains("!s")) { // Tell weather
           if (message.toLowerCase().lastIndexOf("!s") > message.indexOf("PRIVMSG")) { // Make sure the !s is not in the ident/username.
             // out("!s: " + message.toLowerCase().indexOf("!s"));
@@ -368,17 +379,19 @@ public class App {
             if (message.lastIndexOf("!s") + 3 < message.length()) {
               city = message.substring(message.lastIndexOf("!s") + 3); // Parse the city/station name
               if (city.contains("\n")) {
-                out ("Backslash N found!");
+                out ("Backslash N found! Resetting to Joensuu");
+                city = "Joensuu,FI";
               }
               if (city.contains("\r")) {
-                out ("Backslash R found!");
+                out ("Backslash R found! Resetting to Joensuu");
+                city = "Joensuu,FI";
               }
               if (city.contains("\u00A0")) {
                 city = city.replaceAll("\u00A0", ""); // Remove non-breaking space characters
                 out ("Non-breaking space found!");
               }
               if (city.trim().isEmpty()) {
-                out ("The city contains only spaces.");
+                out ("The city contains only spaces. Resetting to Joensuu");
                 city = "Joensuu";
               }
             }
