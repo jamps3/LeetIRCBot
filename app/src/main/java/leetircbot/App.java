@@ -350,19 +350,11 @@ public class App {
                 "-" +
                 position2 +
                 ": " +
-<<<<<<< HEAD
-                df.format(priceAmountd * 1.24) +
-                " snt/kWh (24✂ ), +1h: " +
-                df.format(priceAmount2d * 1.24) +
-                " snt/kWh (24✂ )"
-              );
-=======
                 df.format(priceAmountd * 1.255) +
                 " snt/kWh (25,5%), +1h: " +
                 df.format(priceAmount2d * 1.255) +
                 " snt/kWh (25,5%)"
               ); //✂
->>>>>>> master
             }
           } catch (Exception e) { // Should ignore this Traceback later!
             //e.printStackTrace();
